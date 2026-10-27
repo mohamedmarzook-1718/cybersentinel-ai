@@ -1,0 +1,76 @@
+{
+  "version": "20261027_114637",
+  "trained_at": "2026-10-27T11:46:37.931296+00:00",
+  "training_samples": 390,
+  "anomaly_model": "IsolationForest",
+  "classifier_model": "RandomForestClassifier",
+  "features": [
+    "failed_attempts_window",
+    "distinct_accounts_targeted",
+    "request_frequency",
+    "hour_of_day",
+    "is_failure",
+    "is_success",
+    "is_lockout",
+    "failure_rate_proxy",
+    "high_frequency",
+    "unusual_hour",
+    "multi_account",
+    "bytes_ratio",
+    "duration_norm"
+  ],
+  "metrics": {
+    "accuracy": 1.0,
+    "f1_macro": 1.0,
+    "precision_macro": 1.0,
+    "recall_macro": 1.0,
+    "classification_report": "                     precision    recall  f1-score   support\n\n             normal       1.00      1.00      1.00        50\n        brute_force       1.00      1.00      1.00         7\ncredential_stuffing       1.00      1.00      1.00         7\n          port_scan       1.00      1.00      1.00         7\n  anomalous_traffic       1.00      1.00      1.00         7\n\n           accuracy                           1.00        78\n          macro avg       1.00      1.00      1.00        78\n       weighted avg       1.00      1.00      1.00        78\n",
+    "confusion_matrix": [
+      [
+        50,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        7,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        7,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        7,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        7
+      ]
+    ],
+    "n_train": 312,
+    "n_test": 78,
+    "class_distribution": {
+      "normal": 250,
+      "brute_force": 35,
+      "credential_stuffing": 35,
+      "port_scan": 35,
+      "anomalous_traffic": 35
+    }
+  },
+  "random_seed": 42
+}

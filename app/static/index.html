@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberSentinel AI — Explainable Threat Intelligence & SOC</title>
+  <meta name="description" content="Next-generation Explainable AI (XAI) Security Operations Center and behavioral anomaly detection platform.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="cyber-scanline"></div>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
+            <path d="M12 8v5" stroke="#00f2fe" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="12" cy="16" r="1" fill="#00f2fe"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>CyberSentinel</h1>
+          <span class="badge-ai">AI XAI SOC</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+          <span>SOC Dashboard</span>
+        </button>
+        <button class="nav-item" data-tab="alerts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          <span>Incident Alerts</span>
+          <span class="nav-badge" id="alertCountBadge">0</span>
+        </button>
+        <button class="nav-item" data-tab="events">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+          <span>Live Event Log</span>
+        </button>
+        <button class="nav-item" data-tab="simulator">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          <span>Threat Simulator</span>
+        </button>
+        <button class="nav-item" data-tab="copilot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span>AI Copilot (EN/TA)</span>
+        </button>
+        <button class="nav-item" data-tab="csv">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>CSV Ingestion</span>
+        </button>
+        <button class="nav-item" data-tab="models">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>ML Models & XAI</span>
+        </button>
+        <button class="nav-item" data-tab="scanner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <span>Web Scanner</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="engine-status">
+          <div class="status-pulse online"></div>
+          <div>
+            <div class="status-title">Isolation & Random Forest</div>
+            <div class="status-sub" id="modelVerLabel">Online • v1.0</div>
+          </div>
+        </div>
+        <div class="user-pill" id="userPill">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <div class="user-info">
+            <div class="user-name" id="userNameLabel">Admin User</div>
+            <div class="user-role" id="userRoleLabel">ROLE: ADMIN</div>
+          </div>
+          <button class="logout-btn" id="loginToggleBtn" title="Switch User / Login">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="breadcrumbs">
+            <span class="crumb-root">CYBERSENTINEL SOC</span>
+            <span class="crumb-separator">/</span>
+            <span class="crumb-current" id="currentViewTitle">Operations Center</span>
+          </div>
+          <div class="time-display" id="clockDisplay">00:00:00 UTC</div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn btn-secondary" id="seedSyntheticBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+            Generate Live Threat Traffic
+          </button>
+          <button class="btn btn-primary" id="retrainTopBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>
+            Retrain AI Models
+          </button>
+          <a href="/docs" target="_blank" class="btn btn-glass" title="Open FastAPI Interactive Swagger Documentation">
+            API Docs
+          </a>
+        </div>
+      </header>
+
+      <!-- View Container -->
+      <div class="view-container">
+
+        <!-- 1. DASHBOARD VIEW -->
+        <section id="view-dashboard" class="view-panel active">
+          <!-- Stat Cards Grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Total Ingested Events</span>
+                <span class="stat-icon cyan">📊</span>
+              </div>
+              <div class="stat-value" id="statTotalEvents">0</div>
+              <div class="stat-meta">Continuous monitoring stream</div>
+            </div>
+
+            <div class="stat-card alert-card">
+              <div class="stat-header">
+                <span class="stat-label">Critical & High Incidents</span>
+                <span class="stat-icon red">🚨</span>
+              </div>
+              <div class="stat-value text-red" id="statHighAlerts">0</div>
+              <div class="stat-meta text-red-light">Require immediate containment</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Anomalies Detected</span>
+                <span class="stat-icon purple">⚡</span>
+              </div>
+              <div class="stat-value text-purple" id="statAnomalies">0</div>
+              <div class="stat-meta">Isolation Forest divergence</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Suspicious Logins</span>
+                <span class="stat-icon yellow">⚠️</span>
+              </div>
+              <div class="stat-value text-yellow" id="statSuspiciousLogins">0</div>
+              <div class="stat-meta">Failed & locked attempts</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Open Triage Queue</span>
+                <span class="stat-icon blue">🛡️</span>
+              </div>
+              <div class="stat-value text-blue" id="statOpenAlerts">0</div>
+              <div class="stat-meta">Unresolved incidents</div>
+            </div>
+          </div>
+
+          <!-- Charts & Visualizations Row -->
+          <div class="charts-row">
+            <div class="card chart-card flex-2">
+              <div class="card-header">
+                <h3>Anomaly Frequency Trend</h3>
+                <span class="card-subtitle">Events vs Anomaly Peaks</span>
+              </div>
+              <div class="chart-container" id="trendChartContainer">
+                <!-- Dynamic SVG Trend Chart will render here -->
+              </div>
+            </div>
+
+            <div class="card chart-card flex-1">
+              <div class="card-header">
+                <h3>Threat Risk Spectrum</h3>
+                <span class="card-subtitle">Severity Distribution</span>
+              </div>
+              <div class="risk-distribution-container" id="riskDistContainer">
+                <!-- Dynamic progress bars -->
+              </div>
+            </div>
+
+            <div class="card chart-card flex-1">
+              <div class="card-header">
+                <h3>Classified Attack Vectors</h3>
+                <span class="card-subtitle">Random Forest Categorization</span>
+              </div>
+              <div class="category-bars-container" id="categoryBarsContainer">
+                <!-- Attack categories -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Incidents Table in Dashboard -->
+          <div class="card table-card">
+            <div class="card-header space-between">
+              <div>
+                <h3>Active Incident Queue</h3>
+                <span class="card-subtitle">High-priority alerts requiring analyst action</span>
+              </div>
+              <button class="btn btn-sm btn-secondary" onclick="app.switchTab('alerts')">View All Alerts &rarr;</button>
+            </div>
+            <div class="table-responsive">
+              <table class="cyber-table">
+                <thead>
+                  <tr>
+                    <th>Severity</th>
+                    <th>Incident Title</th>
+                    <th>Attack Vector</th>
+                    <th>Source IP</th>
+                    <th>Risk Score</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="dashAlertsTbody">
+                  <tr><td colspan="7" class="loading-td">Loading alerts stream...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. ALERTS VIEW -->
+        <section id="view-alerts" class="view-panel">
+          <div class="card">
+            <div class="card-header space-between">
+              <div>
+                <h2>Security Incidents & Alert Management</h2>
+                <span class="card-subtitle">Interactive triage, automated playbooks, and mitigation workflows</span>
+              </div>
+              <div class="filter-group">
+                <select id="alertFilterSeverity" class="select-input">
+                  <option value="">All Severities</option>
+                  <option value="Critical">Critical</option>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+                <select id="alertFilterStatus" class="select-input">
+                  <option value="">All Statuses</option>
+                  <option value="open">Open</option>
+                  <option value="acknowledged">Acknowledged</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="resolved">Resolved</option>
+                </select>
+                <button class="btn btn-secondary btn-sm" id="refreshAlertsBtn">Refresh</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="cyber-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Severity</th>
+                    <th>Title & Description</th>
+                    <th>Category</th>
+                    <th>Source IP</th>
+                    <th>Risk Gauge</th>
+                    <th>Status</th>
+                    <th>Timestamp</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="alertsFullTbody">
+                  <tr><td colspan="9" class="loading-td">Loading incidents...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. EVENTS VIEW -->
+        <section id="view-events" class="view-panel">
+          <div class="card">
+            <div class="card-header space-between">
+              <div>
+                <h2>Live Security Event Stream</h2>
+                <span class="card-subtitle">Raw & feature-engineered telemetry with real-time ML scoring</span>
+              </div>
+              <div class="filter-group">
+                <input type="text" id="eventSearchIp" class="text-input" placeholder="Filter by IP...">
+                <select id="eventFilterRisk" class="select-input">
+                  <option value="">All Risk Levels</option>
+                  <option value="Critical">Critical</option>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+                <button class="btn btn-secondary btn-sm" id="refreshEventsBtn">Filter</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="cyber-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Source IP</th>
+                    <th>User</th>
+                    <th>Event Type</th>
+                    <th>Failed Attempts</th>
+                    <th>Req/min</th>
+                    <th>Anomaly Score</th>
+                    <th>Risk Level</th>
+                    <th>Attack Class</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="eventsFullTbody">
+                  <tr><td colspan="10" class="loading-td">Loading event telemetry...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. THREAT SIMULATOR -->
+        <section id="view-simulator" class="view-panel">
+          <div class="grid-2col">
+            <div class="card">
+              <div class="card-header">
+                <h2>Security Event Simulator</h2>
+                <span class="card-subtitle">Inject live attack or benign parameters to test ML inference in real-time</span>
+              </div>
+
+              <div class="preset-buttons">
+                <button class="btn btn-xs btn-preset" onclick="app.loadPreset('brute_force')">Brute Force Preset</button>
+                <button class="btn btn-xs btn-preset" onclick="app.loadPreset('credential_stuffing')">Credential Stuffing</button>
+                <button class="btn btn-xs btn-preset" onclick="app.loadPreset('port_scan')">Port Scan</button>
+                <button class="btn btn-xs btn-preset" onclick="app.loadPreset('anomalous_traffic')">Data Exfiltration</button>
+                <button class="btn btn-xs btn-preset" onclick="app.loadPreset('normal')">Benign Login</button>
+              </div>
+
+              <form id="simulatorForm" class="cyber-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Source IP Address</label>
+                    <input type="text" id="simIp" class="text-input" value="198.51.100.42" required>
+                  </div>
+                  <div class="form-group">
+                    <label>User Identifier</label>
+                    <input type="text" id="simUser" class="text-input" value="user_root" required>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Login Result</label>
+                    <select id="simResult" class="select-input">
+                      <option value="failure">Failure</option>
+                      <option value="lockout">Lockout</option>
+                      <option value="success">Success</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Event Type</label>
+                    <select id="simEventType" class="select-input">
+                      <option value="auth">Auth</option>
+                      <option value="network">Network</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Failed Attempts in Window: <strong id="valFailed">25</strong></label>
+                    <input type="range" id="simFailed" min="0" max="100" value="25" class="slider-input">
+                  </div>
+                  <div class="form-group">
+                    <label>Distinct Accounts Targeted: <strong id="valDistinct">1</strong></label>
+                    <input type="range" id="simDistinct" min="1" max="50" value="1" class="slider-input">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Request Frequency (req/min): <strong id="valFreq">45.0</strong></label>
+                    <input type="range" id="simFreq" min="0.1" max="500" step="0.5" value="45" class="slider-input">
+                  </div>
+                  <div class="form-group">
+                    <label>Hour of Day (0-23): <strong id="valHour">3</strong></label>
+                    <input type="range" id="simHour" min="0" max="23" value="3" class="slider-input">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Destination Port</label>
+                    <input type="number" id="simPort" class="text-input" value="22">
+                  </div>
+                  <div class="form-group">
+                    <label>Bytes Sent</label>
+                    <input type="number" id="simBytesSent" class="text-input" value="450">
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button type="button" class="btn btn-primary" id="simPredictBtn">Run ML Inference</button>
+                  <button type="button" class="btn btn-secondary" id="simIngestBtn">Score & Ingest into SOC</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Simulator Results Card -->
+            <div class="card" id="simResultCard">
+              <div class="card-header">
+                <h2>Real-Time ML Threat Assessment</h2>
+                <span class="card-subtitle">Explainable AI multi-model scoring</span>
+              </div>
+
+              <div id="simResultEmpty" class="empty-state">
+                <div class="empty-icon">🧠</div>
+                <p>Configure parameters on the left and click <strong>Run ML Inference</strong> to analyze with Isolation Forest & Random Forest models.</p>
+              </div>
+
+              <div id="simResultContent" class="sim-output" style="display: none;">
+                <div class="gauge-banner">
+                  <div class="gauge-metric">
+                    <div class="gauge-title">COMPOSITE RISK SCORE</div>
+                    <div class="gauge-val" id="resRiskScore">0</div>
+                    <div class="badge-severity" id="resRiskBadge">LOW</div>
+                  </div>
+                  <div class="gauge-metric">
+                    <div class="gauge-title">PREDICTED ATTACK VECTOR</div>
+                    <div class="attack-cat-title" id="resAttackCat">NORMAL</div>
+                    <div class="conf-sub" id="resConfidence">Confidence: 99%</div>
+                  </div>
+                  <div class="gauge-metric">
+                    <div class="gauge-title">ISOLATION FOREST SCORE</div>
+                    <div class="anomaly-val" id="resAnomalyScore">0.000</div>
+                    <div class="anomaly-sub">Negative = Highly Anomalous</div>
+                  </div>
+                </div>
+
+                <div class="xai-section">
+                  <h4>Plain-Language Incident Narrative</h4>
+                  <p class="xai-narrative" id="resSummary"></p>
+                </div>
+
+                <div class="xai-section">
+                  <h4>Top Feature Influences (Deviation Waterfall)</h4>
+                  <div class="feature-bars" id="resFeaturesBars"></div>
+                </div>
+
+                <div class="xai-section">
+                  <h4>Defensive SOC Recommendations</h4>
+                  <ul class="recs-list" id="resRecsList"></ul>
+                </div>
+
+                <div class="confidence-box" id="resConfidenceBox"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. AI COPILOT CHAT VIEW -->
+        <section id="view-copilot" class="view-panel">
+          <div class="chat-layout">
+            <div class="card chat-card">
+              <div class="card-header space-between">
+                <div>
+                  <h2>CyberSentinel Security Copilot</h2>
+                  <span class="card-subtitle">AI analyst assistant for threat triage, attack explanation & playbooks</span>
+                </div>
+                <div class="lang-selector">
+                  <span>Language:</span>
+                  <button class="btn btn-xs lang-btn active" data-lang="en">🇬🇧 English</button>
+                  <button class="btn btn-xs lang-btn" data-lang="ta">🇮🇳 தமிழ் (Tamil)</button>
+                </div>
+              </div>
+
+              <div class="chat-messages-container" id="chatMessages">
+                <div class="chat-bubble bot">
+                  <div class="chat-avatar">🤖</div>
+                  <div class="chat-body">
+                    <div class="chat-sender">CyberSentinel Copilot</div>
+                    <p>Hello Analyst! I am your AI Security Copilot. Ask me questions about threat types (brute force, credential stuffing, port scans), how anomaly scores work, mitigation playbooks, or troubleshooting specific alerts.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="chat-suggestions">
+                <button class="chip" onclick="app.sendSuggested('What is credential stuffing?')">What is credential stuffing?</button>
+                <button class="chip" onclick="app.sendSuggested('How to mitigate brute force?')">How to mitigate brute force?</button>
+                <button class="chip" onclick="app.sendSuggested('Explain risk score')">Explain risk score</button>
+                <button class="chip" onclick="app.sendSuggested('What is an anomaly?')">What is an anomaly?</button>
+                <button class="chip" onclick="app.sendSuggested('Brute force என்றால் என்ன?')">🇮🇳 Brute force விளக்கம்</button>
+              </div>
+
+              <form id="chatForm" class="chat-input-bar">
+                <input type="text" id="chatInput" class="text-input" placeholder="Type your security question..." required>
+                <button type="submit" class="btn btn-primary">Send</button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. CSV INGESTION VIEW -->
+        <section id="view-csv" class="view-panel">
+          <div class="card">
+            <div class="card-header space-between">
+              <div>
+                <h2>Batch CSV Telemetry Ingestion</h2>
+                <span class="card-subtitle">Upload enterprise log CSV files for automatic ML threat classification and alert generation</span>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="downloadSampleCsvBtn">
+                📥 Download Sample Security CSV
+              </button>
+            </div>
+
+            <div class="csv-upload-dropzone" id="csvDropzone">
+              <div class="dropzone-icon">📄</div>
+              <h3>Drag & drop your security logs CSV here</h3>
+              <p>or click to select file from your system (Max 10 MB)</p>
+              <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
+              <button class="btn btn-primary" onclick="document.getElementById('csvFileInput').click()">Browse Files</button>
+            </div>
+
+            <div id="csvResultCard" class="csv-results" style="display: none;">
+              <h3>Ingestion Results Summary</h3>
+              <div class="csv-metrics">
+                <div class="csv-metric">Accepted Records: <strong id="csvAcceptedCount" class="text-green">0</strong></div>
+                <div class="csv-metric">Rejected / Malformed: <strong id="csvRejectedCount" class="text-red">0</strong></div>
+              </div>
+              <div id="csvErrorsBox" class="csv-errors"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. ML MODELS VIEW -->
+        <section id="view-models" class="view-panel">
+          <div class="grid-2col">
+            <div class="card">
+              <div class="card-header space-between">
+                <div>
+                  <h2>ML Architecture & Performance</h2>
+                  <span class="card-subtitle">Active Ensemble Architecture</span>
+                </div>
+                <button class="btn btn-primary btn-sm" id="retrainModelsBtn">Retrain Models Now</button>
+              </div>
+
+              <div class="model-meta-list" id="modelMetaList">
+                <div class="meta-item">
+                  <span class="meta-label">Anomaly Detector:</span>
+                  <span class="meta-value text-cyan">Isolation Forest (Unsupervised)</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Classifier:</span>
+                  <span class="meta-value text-purple">Random Forest (200 Trees, Supervised)</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Model Version:</span>
+                  <span class="meta-value" id="metaVersion">-</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Training Telemetry Samples:</span>
+                  <span class="meta-value" id="metaSamples">-</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Test Set Accuracy:</span>
+                  <span class="meta-value text-green" id="metaAccuracy">-</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">F1 Macro Score:</span>
+                  <span class="meta-value text-green" id="metaF1">-</span>
+                </div>
+              </div>
+
+              <div class="matrix-section">
+                <h3>Confusion Matrix Breakdown</h3>
+                <div class="table-responsive">
+                  <table class="matrix-table" id="confusionMatrixTable">
+                    <thead>
+                      <tr><th>True \ Pred</th><th>Normal</th><th>Brute Force</th><th>Cred Stuff</th><th>Port Scan</th><th>Exfil</th></tr>
+                    </thead>
+                    <tbody id="matrixTbody">
+                      <tr><td colspan="6">Loading matrix...</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Risk Threshold Settings Card -->
+            <div class="card">
+              <div class="card-header">
+                <h2>Risk Engine Thresholds</h2>
+                <span class="card-subtitle">Adjust composite score cutoffs and anomaly contamination rates</span>
+              </div>
+
+              <form id="settingsForm" class="cyber-form">
+                <div class="form-group">
+                  <label>Low Risk Ceiling (0 - <span id="lblLow">25</span>):</label>
+                  <input type="range" id="setLow" min="10" max="40" value="25" class="slider-input">
+                </div>
+                <div class="form-group">
+                  <label>Medium Risk Ceiling (<span id="lblLow2">25</span> - <span id="lblMed">50</span>):</label>
+                  <input type="range" id="setMed" min="30" max="70" value="50" class="slider-input">
+                </div>
+                <div class="form-group">
+                  <label>High Risk Trigger (<span id="lblMed2">50</span> - <span id="lblHigh">75</span>):</label>
+                  <input type="range" id="setHigh" min="60" max="90" value="75" class="slider-input">
+                </div>
+                <div class="form-group">
+                  <label>Anomaly Contamination Rate: <span id="lblContam">0.05</span></label>
+                  <input type="range" id="setContam" min="0.01" max="0.20" step="0.01" value="0.05" class="slider-input">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Threshold Parameters</button>
+              </form>
+            </div>
+          </div>
+        </section>
+ 
+        <!-- 7. WEB SECURITY SCANNER VIEW -->
+        <section id="view-scanner" class="view-panel">
+          <!-- Scanner Header & Safety Banner -->
+          <div class="card scanner-header-card">
+            <div class="card-header space-between">
+              <div>
+                <h2>Website Security Intelligence Platform</h2>
+                <span class="card-subtitle">Comprehensive multi-layer attack surface mapping, OWASP Top 10 testing, client secrets, API security, and CVE intelligence</span>
+              </div>
+              <div class="badge-guard-header">
+                <span class="pulse-dot green"></span>
+                <span>SSRF Guardrails & Safe Probes Active</span>
+              </div>
+            </div>
+
+            <div class="safety-alert-banner">
+              <span class="alert-icon">🛡️</span>
+              <div class="alert-text">
+                <strong>Authorized Testing Policy:</strong> Assess only websites you own or have explicit written authorization to evaluate.
+                All tests employ non-destructive, safe HTTP probes. Private, loopback, link-local, and cloud metadata IP addresses are strictly prohibited and automatically blocked.
+              </div>
+            </div>
+
+            <!-- Target & Scope Configuration Form -->
+            <form id="webScannerForm" class="scanner-input-form" onsubmit="event.preventDefault(); app.startWebScan();">
+              <div class="url-input-wrapper">
+                <span class="url-icon">🌐</span>
+                <input type="text" id="scannerUrlInput" class="scanner-url-input" placeholder="https://example.com" autocomplete="off" required>
+                <button type="submit" class="btn btn-primary btn-scan" id="scannerSubmitBtn">
+                  <span id="scanBtnText">Launch Security Assessment</span>
+                  <span id="scanBtnSpinner" class="spinner-sm" style="display: none;"></span>
+                </button>
+              </div>
+
+              <!-- Presets -->
+              <div class="scanner-presets">
+                <span class="preset-label">Test Targets:</span>
+                <button type="button" class="preset-chip" onclick="app.setScannerUrl('https://example.com')">example.com</button>
+                <button type="button" class="preset-chip" onclick="app.setScannerUrl('https://google.com')">google.com</button>
+                <button type="button" class="preset-chip" onclick="app.setScannerUrl('https://github.com')">github.com</button>
+                <button type="button" class="preset-chip" onclick="app.setScannerUrl('https://cloudflare.com')">cloudflare.com</button>
+                <button type="button" class="preset-chip warning" onclick="app.setScannerUrl('http://127.0.0.1')">127.0.0.1 (SSRF Guard Test)</button>
+              </div>
+
+              <!-- Scope & Profile Options -->
+              <div class="scan-options-row">
+                <div class="scan-opt-group">
+                  <label for="scannerProfileSelect">Assessment Profile:</label>
+                  <select id="scannerProfileSelect" class="select-input select-input-sm">
+                    <option value="standard" selected>Standard Assessment (Crawl, OWASP, Secrets, CVEs)</option>
+                    <option value="quick">Quick Surface Audit (Top 10 Pages, Essential Checks)</option>
+                    <option value="comprehensive">Comprehensive Deep Scan (Deep Crawl, All Modules)</option>
+                    <option value="passive">Passive Intelligence Only (DNS, Headers, TLS, No Crawl)</option>
+                  </select>
+                </div>
+
+                <div class="scan-opt-group auth-check-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="scannerAuthConfirm" checked required>
+                    <span>I confirm I am authorized to assess this target</span>
+                  </label>
+                </div>
+
+                <button type="button" class="btn btn-outline btn-sm" id="toggleScopeBtn" onclick="app.toggleScopeConfig()">
+                  <span>⚙️ Scope & Exclusions</span>
+                </button>
+              </div>
+
+              <!-- Collapsible Scope Configuration -->
+              <div id="scannerScopeBox" class="scanner-scope-box" style="display: none;">
+                <div class="scope-grid">
+                  <div class="scope-field">
+                    <label>Additional Allowed Subdomains (comma-separated):</label>
+                    <input type="text" id="scannerAllowedDomains" class="text-input text-input-sm" placeholder="api.example.com, dev.example.com">
+                  </div>
+                  <div class="scope-field">
+                    <label>Excluded Paths (comma-separated):</label>
+                    <input type="text" id="scannerExcludedPaths" class="text-input text-input-sm" placeholder="/cart, /checkout, /private">
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <!-- Scanning Multi-Step Progress Tracker -->
+            <div id="scannerProgressBox" class="scanner-progress-box" style="display: none;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="scannerProgressFill" style="width: 20%;"></div>
+              </div>
+              <div class="progress-steps-list">
+                <div class="step-item active" id="stepSsrf">1. Validating URL & Enforcing SSRF Guardrails</div>
+                <div class="step-item" id="stepTls">2. Inspecting TLS/SSL & Protocol Cryptography</div>
+                <div class="step-item" id="stepCrawl">3. Same-Origin Crawling & Attack Surface Mapping</div>
+                <div class="step-item" id="stepOwasp">4. Auditing OWASP Top 10 & API Security</div>
+                <div class="step-item" id="stepThreat">5. Scanning Client Secrets & Cross-Checking CVE Intelligence</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Scan Report Section (Initially Hidden) -->
+          <div id="scannerResultsCard" style="display: none;">
+            <!-- Report Sub-navigation Bar -->
+            <div class="scanner-subnav-bar">
+              <button class="scanner-subnav-btn active" data-subtab="overview" onclick="app.switchScannerSubtab('overview')">
+                📊 Overview & Telemetry
+              </button>
+              <button class="scanner-subnav-btn" data-subtab="surface" onclick="app.switchScannerSubtab('surface')">
+                🌐 Attack Surface & Assets (<span id="surfaceAssetsCount">0</span>)
+              </button>
+              <button class="scanner-subnav-btn" data-subtab="findings" onclick="app.switchScannerSubtab('findings')">
+                🛡️ Security Findings (<span id="tabFindingsCount">0</span>)
+              </button>
+              <button class="scanner-subnav-btn" data-subtab="remediation" onclick="app.switchScannerSubtab('remediation')">
+                📋 Remediation Plan (<span id="tabRemediationCount">0</span>)
+              </button>
+              <button class="scanner-subnav-btn" data-subtab="limitations" onclick="app.switchScannerSubtab('limitations')">
+                ℹ️ Assessment Scope & Limits
+              </button>
+            </div>
+
+            <!-- SUBPANEL 1: Overview -->
+            <div id="subtab-overview" class="scanner-subpanel active">
+              <div class="grid-3 scanner-metrics-grid">
+                <!-- Score Gauge -->
+                <div class="card score-gauge-card">
+                  <div class="score-circle-wrapper">
+                    <div class="score-circle" id="scanScoreCircle">
+                      <span class="score-number" id="scanScoreNum">--</span>
+                      <span class="score-sub">/ 100</span>
+                    </div>
+                    <div class="score-meta">
+                      <div class="risk-badge-large" id="scanRiskBadge">UNKNOWN</div>
+                      <div class="scan-status-label" id="scanStatusLabel">Status: Completed</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Target Telemetry -->
+                <div class="card target-telemetry-card">
+                  <h3>Target Telemetry</h3>
+                  <div class="telemetry-rows">
+                    <div class="telem-row"><span>Target Host:</span> <strong id="resTargetHost">--</strong></div>
+                    <div class="telem-row"><span>Resolved IP:</span> <strong id="resTargetIp">--</strong></div>
+                    <div class="telem-row"><span>HTTP Status:</span> <strong id="resHttpStatus">--</strong></div>
+                    <div class="telem-row"><span>Response Latency:</span> <strong id="resLatency">--</strong></div>
+                    <div class="telem-row"><span>TLS Protocol:</span> <strong id="resTlsVer">--</strong></div>
+                    <div class="telem-row"><span>Certificate Expiry:</span> <strong id="resCertExpiry">--</strong></div>
+                  </div>
+                </div>
+
+                <!-- Severity Breakdown & Actions -->
+                <div class="card severity-actions-card">
+                  <h3>Findings Breakdown</h3>
+                  <div class="findings-chips-grid">
+                    <div class="finding-chip critical"><span class="chip-count" id="countCrit">0</span> Critical</div>
+                    <div class="finding-chip high"><span class="chip-count" id="countHigh">0</span> High</div>
+                    <div class="finding-chip medium"><span class="chip-count" id="countMed">0</span> Medium</div>
+                    <div class="finding-chip low"><span class="chip-count" id="countLow">0</span> Low</div>
+                    <div class="finding-chip info"><span class="chip-count" id="countInfo">0</span> Info</div>
+                  </div>
+
+                  <div class="report-actions-bar">
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="app.exportCurrentScan('csv')">
+                      <span>📥 Download CSV</span>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="app.exportCurrentScan('json')">
+                      <span>📄 Download JSON</span>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline" onclick="window.print()">
+                      <span>🖨️ Print / PDF</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBPANEL 2: Attack Surface & Discovered Assets -->
+            <div id="subtab-surface" class="scanner-subpanel" style="display: none;">
+              <div class="grid-2" style="margin-bottom: 16px;">
+                <!-- DNS Posture Card -->
+                <div class="card">
+                  <div class="card-header">
+                    <h3>DNS Records & Email Security</h3>
+                  </div>
+                  <div id="surfaceDnsContainer" class="surface-dns-box">
+                    <div class="text-dim">No DNS records analyzed yet.</div>
+                  </div>
+                </div>
+
+                <!-- Technology Stack Card -->
+                <div class="card">
+                  <div class="card-header">
+                    <h3>Observed Technology Stack</h3>
+                  </div>
+                  <div id="surfaceTechContainer" class="surface-tech-box">
+                    <div class="text-dim">No technologies fingerprinted.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <!-- Discovered Subdomains & APIs -->
+                <div class="card">
+                  <div class="card-header space-between">
+                    <h3>Discovered Subdomains & API Routes</h3>
+                  </div>
+                  <div class="surface-list-group">
+                    <h4>Public Subdomains</h4>
+                    <div id="surfaceSubdomainsContainer" class="tag-cloud"></div>
+                    <h4 style="margin-top:14px;">API Endpoints</h4>
+                    <div id="surfaceApisContainer" class="tag-cloud"></div>
+                  </div>
+                </div>
+
+                <!-- Crawled Pages -->
+                <div class="card">
+                  <div class="card-header space-between">
+                    <h3>Crawled Same-Origin Pages (<span id="crawledPagesCount">0</span>)</h3>
+                  </div>
+                  <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">
+                    <table class="cyber-table" style="font-size:0.75rem;">
+                      <thead>
+                        <tr>
+                          <th>Page URL</th>
+                          <th>Status</th>
+                          <th>Page Title</th>
+                        </tr>
+                      </thead>
+                      <tbody id="surfacePagesTbody">
+                        <tr><td colspan="3" class="loading-td">No pages recorded.</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBPANEL 3: Security Findings -->
+            <div id="subtab-findings" class="scanner-subpanel" style="display: none;">
+              <div class="card findings-card">
+                <div class="card-header space-between">
+                  <div>
+                    <h3>Observed Security Findings & Evidence</h3>
+                    <span class="card-subtitle">Detailed evidence, vulnerability explanations, and actionable mitigations</span>
+                  </div>
+                  <div class="findings-filter-row">
+                    <div class="findings-filters">
+                      <button class="filter-btn active" data-sev="all" onclick="app.filterFindings('all')">All (<span id="totalFindingsCount">0</span>)</button>
+                      <button class="filter-btn" data-sev="critical" onclick="app.filterFindings('critical')">Critical</button>
+                      <button class="filter-btn" data-sev="high" onclick="app.filterFindings('high')">High</button>
+                      <button class="filter-btn" data-sev="medium" onclick="app.filterFindings('medium')">Medium</button>
+                      <button class="filter-btn" data-sev="low" onclick="app.filterFindings('low')">Low</button>
+                      <button class="filter-btn" data-sev="informational" onclick="app.filterFindings('informational')">Good Practice</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="findingsContainer" class="findings-list-container">
+                  <!-- Dynamically populated finding cards -->
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBPANEL 4: Remediation Plan -->
+            <div id="subtab-remediation" class="scanner-subpanel" style="display: none;">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <h3>Prioritized Remediation Checklist</h3>
+                    <span class="card-subtitle">Recommended defensive mitigation actions ordered by security risk and impact</span>
+                  </div>
+                </div>
+                <div id="remediationContainer" class="remediation-list-container">
+                  <!-- Dynamically populated remediation items -->
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBPANEL 5: Limitations & Scope -->
+            <div id="subtab-limitations" class="scanner-subpanel" style="display: none;">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <h3>Assessment Scope, Guardrails & Methodological Limits</h3>
+                    <span class="card-subtitle">Transparent disclosure of testing boundaries and safety constraints</span>
+                  </div>
+                </div>
+                <div class="limitations-body">
+                  <div class="alert-box info" style="margin-bottom:16px;">
+                    <strong>Ethical & Non-Destructive Scanning Standard:</strong>
+                    This assessment was conducted using passive, safe external HTTP/DNS/TLS requests. It does not perform brute force, parameter fuzzing, denial-of-service, or data exfiltration.
+                  </div>
+                  <ul id="limitationsList" class="limitations-list">
+                    <!-- Populated dynamically -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scan History Table Card -->
+          <div class="card table-card">
+            <div class="card-header space-between">
+              <div>
+                <h3>Website Scan History & Posture Comparison</h3>
+                <span class="card-subtitle">Audited domains, posture scores, and historical comparison</span>
+              </div>
+              <div class="history-controls">
+                <input type="text" id="scanSearchInput" class="text-input text-input-sm" placeholder="Filter by host..." oninput="app.filterScanHistory(this.value)">
+                <button class="btn btn-sm btn-secondary" onclick="app.loadScanHistory()">Refresh</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="cyber-table">
+                <thead>
+                  <tr>
+                    <th>Target Host</th>
+                    <th>Profile</th>
+                    <th>Scan Date (UTC)</th>
+                    <th>Score</th>
+                    <th>Risk Level</th>
+                    <th>Findings (C / H / M / L)</th>
+                    <th>Crawled</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="scanHistoryTbody">
+                  <tr><td colspan="9" class="loading-td">Loading scan history...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Scan Comparison Modal -->
+  <div class="modal-backdrop" id="scanCompareModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2>Website Security Posture Comparison</h2>
+          <span class="card-subtitle">Side-by-side delta between two security audits</span>
+        </div>
+        <button class="modal-close" onclick="app.closeModal('scanCompareModal')">&times;</button>
+      </div>
+
+      <div class="modal-body" id="compareModalBody">
+        <div id="compareScoreDelta" class="compare-delta-banner"></div>
+        <div class="compare-grid">
+          <div class="compare-col" id="compareColA"></div>
+          <div class="compare-col" id="compareColB"></div>
+        </div>
+        <div class="diff-section">
+          <h4>Security Findings Delta</h4>
+          <div id="compareDiffContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- XAI Deep-Dive Modal -->
+  <div class="modal-backdrop" id="xaiModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-badge" id="modalSeverityBadge">CRITICAL</div>
+          <h2 id="modalIncidentTitle">Incident Explanation & Triage</h2>
+        </div>
+        <button class="modal-close" onclick="app.closeModal('xaiModal')">&times;</button>
+      </div>
+
+      <div class="modal-body" id="modalBody">
+        <div class="modal-meta-bar" id="modalMetaBar"></div>
+
+        <div class="xai-section">
+          <h3>Plain-Language Assessment</h3>
+          <p class="xai-narrative" id="modalSummary"></p>
+        </div>
+
+        <div class="xai-grid">
+          <div class="xai-box">
+            <h4>Observed Behavioral Facts</h4>
+            <ul id="modalFactsList" class="facts-list"></ul>
+          </div>
+          <div class="xai-box">
+            <h4>Model Inferences & Divergence</h4>
+            <ul id="modalInferencesList" class="inferences-list"></ul>
+          </div>
+        </div>
+
+        <div class="xai-section">
+          <h4>Defensive Containment Recommendations</h4>
+          <ul id="modalRecsList" class="recs-list"></ul>
+        </div>
+
+        <div class="xai-section" id="modalAuditSection">
+          <h4>Incident Action Workflow</h4>
+          <div class="incident-actions-row">
+            <button class="btn btn-sm btn-outline" onclick="app.updateIncidentStatus('acknowledged')">Acknowledge</button>
+            <button class="btn btn-sm btn-secondary" onclick="app.updateIncidentStatus('in_progress')">Mark In Progress</button>
+            <button class="btn btn-sm btn-primary" onclick="app.updateIncidentStatus('resolved')">Resolve Incident</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login / Switch User Modal -->
+  <div class="modal-backdrop" id="loginModal">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-header">
+        <h2>CyberSentinel SOC Authentication</h2>
+        <button class="modal-close" onclick="app.closeModal('loginModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted">Select a demo role or sign in with credentials:</p>
+        <div class="quick-login-btns">
+          <button class="btn btn-primary btn-block" onclick="app.quickLogin('admin', 'Admin@CyberSentinel2024')">
+            Quick Login as Admin
+          </button>
+          <button class="btn btn-secondary btn-block" onclick="app.quickLogin('analyst', 'Analyst@CyberSentinel2024')">
+            Quick Login as SOC Analyst
+          </button>
+        </div>
+        <div class="or-divider"><span>OR</span></div>
+        <form id="customLoginForm" class="cyber-form">
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="loginUsername" class="text-input" placeholder="admin" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" class="text-input" required>
+          </div>
+          <button type="submit" class="btn btn-glass btn-block">Sign In</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
